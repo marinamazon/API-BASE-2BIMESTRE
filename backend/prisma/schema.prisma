@@ -3,13 +3,13 @@
 
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
 
 datasource db {
   provider = "mysql"
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 // Modelo de Tarefa
@@ -19,15 +19,5 @@ model Task {
   description String?
   completed   Boolean  @default(false)
   createdAt   DateTime @default(now())
- 
-  // Relacionamento com Categoria
-  categoryId  Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
 }
 
-// Modelo de Categoria (Flexibilidade de temas)
-model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  tasks Task[]
-}

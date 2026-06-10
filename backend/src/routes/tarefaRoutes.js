@@ -1,45 +1,45 @@
-// ========================================
-// ROUTES - CAMADA DE ROTAS
-// ========================================
-// Esta camada é responsável por:
-// - Definir as rotas da aplicação
-// - Mapear URLs para os controllers correspondentes
-// - Organizar as rotas por recurso/entidade
-
 import express from "express";
 import * as TarefaController from "../controllers/tarefaController.js";
 
-// Cria um roteador do Express
+// ========================================
+// ROTAS REST - CRUD COMPLETO
+// ========================================
+
 const router = express.Router();
 
-// ========================================
-// DEFINIÇÃO DAS ROTAS DE TAREFAS
-// ========================================
+/**
+ * GET /tasks - Listar todas as tarefas
+ * @returns {Array} Lista de tarefas
+ */
+router.get("/tasks", TarefaController.listar);
 
 /**
- * GET /tarefas - Lista todas as tarefas
+ * GET /tasks/:id - Buscar tarefa por ID
+ * @param {number} id - ID da tarefa
+ * @returns {Object} Tarefa encontrada
  */
-router.get("/tarefas", TarefaController.listarTarefas);
+router.get("/tasks/:id", TarefaController.buscarPorId);
 
 /**
- * GET /tarefas/:id - Obtém uma tarefa específica
+ * POST /tasks - Criar nova tarefa
+ * @body {Object} { title, description?, completed? }
+ * @returns {Object} Tarefa criada
  */
-router.get("/tarefas/:id", TarefaController.obterTarefa);
+router.post("/tasks", TarefaController.criar);
 
 /**
- * POST /tarefas - Cria uma nova tarefa
+ * PUT /tasks/:id - Atualizar tarefa
+ * @param {number} id - ID da tarefa
+ * @body {Object} { title?, description?, completed? }
+ * @returns {Object} Tarefa atualizada
  */
-router.post("/tarefas", TarefaController.criarTarefa);
+router.put("/tasks/:id", TarefaController.atualizar);
 
 /**
- * PATCH /tarefas/:id - Atualiza uma tarefa parcialmente
+ * DELETE /tasks/:id - Excluir tarefa
+ * @param {number} id - ID da tarefa
+ * @returns {Object} Tarefa deletada
  */
-router.patch("/tarefas/:id", TarefaController.atualizarTarefa);
+router.delete("/tasks/:id", TarefaController.excluir);
 
-/**
- * DELETE /tarefas/:id - Remove uma tarefa
- */
-router.delete("/tarefas/:id", TarefaController.excluirTarefa);
-
-// Exporta o roteador para ser usado no app principal
 export default router;

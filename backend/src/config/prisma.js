@@ -1,14 +1,18 @@
-import "dotenv/config";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import { PrismaClient } from "../../generated/prisma/index.js";
+import { PrismaClient } from '../../generated/prisma/index.js';
 
-const adapter = new PrismaMariaDb({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME,
-  connectionLimit: 5
-});
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
+
+// Teste de conexão com o banco de dados
+export async function testarConexao() {
+  try {
+    // Executa uma query simples para testar a conexão
+    await prisma.$queryRaw`SELECT 1`;
+    console.log('✅ Conexão com o banco de dados estabelecida com sucesso!');
+    return true;
+  } catch (erro) {
+    console.error('❌ Erro ao conectar ao banco de dados:', erro.message);
+    return false;
+  }
+}
 
 export { prisma };
